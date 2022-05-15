@@ -68,9 +68,9 @@ function Workout() {
       setRepsTime(origRepsTime)
       setTimeBetweenSet(origTimeBetweenSet)
     } else if (running && sets === 1 && repsTime === 0 && !paused) {
-      updateWorkout()
+      setRunning(false)
     }
-  })
+  }, [running, origRepsTime, origTimeBetweenSet, paused, repsTime, sets, timeBetweenSet])
 
   const formComponent = () => {
     return (
