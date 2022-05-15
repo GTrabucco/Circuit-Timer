@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import 'antd/dist/antd.min.css'
 import './index.css';
-import { InputNumber, Col, Row, Button } from 'antd';
+import { InputNumber, Col, Row, Button, Divider } from 'antd';
 
 function Workout() {
   const [running, setRunning] = useState(false);
@@ -32,6 +32,7 @@ function Workout() {
       setOrigRepsTime(0)
       setSets(0)
       setTimeBetweenSet(0)
+      setOrigTimeBetweenSet(0)
     }
 
     setPaused(false)
@@ -74,90 +75,90 @@ function Workout() {
 
   const formComponent = () => {
     return (
-      <Row justify="center">
-        <Col span={12}>
-          <Row>
-            <Col span={12}>
+      <>
+        <Row className="row" justify="space-between">
+          <Col span={11} offset={3}>
+            <Row className="row">
               <h1>Sets</h1>
-            </Col>
-            <Col span={12}>
+            </Row>
+            <Row className="row">
+              <h1>Rest per Set</h1>
+            </Row>
+            <Row className="row">
+              <h1>Rep Time</h1>
+            </Row>
+          </Col>
+
+          <Col span={8} offset={2}>
+            <Row className="row2">
               <InputNumber min={1} onChange={onSetsChange} />
-            </Col>
-          </Row>
-          <Row>
-            <Col span={12}>
-              <h1>Time between Sets (seconds)</h1>
-            </Col>
-            <Col span={12}>
+            </Row>
+            <Row className="row2">
               <InputNumber min={0} onChange={onTimeBetweenSetChange} />
-            </Col>
-          </Row>
-          <Row>
-            <Col span={12}>
-              <h1>Reps (seconds)</h1>
-            </Col>
-            <Col span={12}>
+            </Row>
+            <Row className="row2">
               <InputNumber min={0} onChange={onRepsTimeChange} />
-            </Col>
-          </Row>
-          <Row >
-            <Col span={24}>
-              <Button disabled={!(repsTime > 0 && sets > 0 && !paused)} block onClick={updateWorkout}>Start Workout</Button>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
+            </Row>
+          </Col>
+
+        </Row >
+        <Row justify="center" align="bottom" className="row">
+          <Col span={12}>
+            <Button className="btn-row" size="large" disabled={!(repsTime > 0 && sets > 0 && !paused)} block onClick={updateWorkout}>Start</Button>
+          </Col>
+        </Row>
+      </>
     );
   }
 
   const timerComponent = () => {
     return (
-      <Row justify="center">
-        <Col span={12}>
-          <Row>
-            <Col span={12}>
+      <>
+        <Row className="row" justify="space-between">
+          <Col span={11} offset={3}>
+            <Row className="row">
               <h1>Sets</h1>
-            </Col>
-            <Col span={12}>
-              <h1>{sets}</h1>
-            </Col>
-          </Row>
-          <Row className={repsTime === 0 || paused ? "break" : ""}>
-            <Col span={12}>
-              <h1>Time between Sets (seconds)</h1>
-            </Col>
-            <Col span={12}>
-              <h1>{timeBetweenSet}</h1>
-            </Col>
-          </Row>
-          <Row className={running && !paused && repsTime > 0 ? "running" : ""}>
-            <Col span={12}>
-              <h1>Reps (seconds)</h1>
-            </Col>
-            <Col span={12}>
-              <h1>{repsTime}</h1>
-            </Col>
-          </Row>
-          <Row columns={2}>
-            <Col span={12}>
-              <Button block onClick={updateWorkout}>End Workout</Button>
-            </Col>
-            <Col span={12}>
-              {paused ? <Button block onClick={pauseWorkout}>Resume Workout</Button>
-                : <Button block onClick={pauseWorkout}>Pause Workout</Button>
-              }
-            </Col>
-          </Row>
-        </Col>
-      </Row>
+            </Row>
+            <Row className="row">
+              <h1>Rest per Set</h1>
+            </Row>
+            <Row className="row">
+              <h1>Rep Time</h1>
+            </Row>
+          </Col>
+
+          <Col span={6} offset={4}>
+            <Row className="row">
+              <h1>{sets} </h1>           
+            </Row>
+            <Row className="row">
+              <h1>{timeBetweenSet} </h1>           
+            </Row>
+            <Row className="row">
+              <h1>{repsTime}</h1>            
+            </Row>
+          </Col>
+        </Row >
+        
+        <Row justify="center" align="bottom" className="row">
+          <Col span={12}>
+            {paused ? <Button size="large" className="btn-row" block onClick={pauseWorkout}>Resume</Button>
+              : <Button size="large" className="btn-row" block onClick={pauseWorkout}>Pause</Button>
+            }          
+          </Col>
+          <Col span={12}>
+            <Button size="large" className="btn-row" block onClick={updateWorkout}>End</Button>       
+          </Col>
+        </Row>
+      </>
     )
   }
 
   return (
-    <div>
-      {
-        running ? timerComponent() : formComponent()
-      }
+    <div className={ running ? !paused && repsTime > 0 ? "running" : "break" : ""}>
+      { running ? 
+        timerComponent() : 
+        formComponent() }
     </div>
   );
 }
