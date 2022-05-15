@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import 'antd/dist/antd.min.css'
 import './index.css';
-import { InputNumber, Col, Row, Button, Divider } from 'antd';
+import { InputNumber, Col, Row, Button } from 'antd';
 
 function Workout() {
   const [running, setRunning] = useState(false);
